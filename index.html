@@ -1,0 +1,337 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <title>Simple Map</title>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet">
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js"></script>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+
+  <link rel="stylesheet"
+    href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.9.0/css/bootstrap-datepicker.min.css">
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+  <script
+    src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.9.0/js/bootstrap-datepicker.min.js"></script>
+  <script
+    src="  https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.9.0/locales/bootstrap-datepicker.uk.min.js"></script>
+</head>
+<style>
+  .panel {
+    margin-bottom: 20px;
+    background-color: #fff;
+    border: 1px solid transparent;
+    border-radius: 4px;
+    -webkit-box-shadow: 0 1px 1px rgba(0, 0, 0, .05);
+    box-shadow: 0 1px 1px rgba(0, 0, 0, .05);
+  }
+
+  .panel-body {
+    padding: 15px;
+  }
+
+  .panel-heading {
+    padding: 10px 15px;
+    border-bottom: 1px solid transparent;
+    border-top-left-radius: 3px;
+    border-top-right-radius: 3px;
+  }
+
+  .panel-default>.panel-heading {
+    color: #333;
+    background-color: #f5f5f5;
+    border-color: #ddd;
+  }
+
+  .panel-default {
+    border-color: #ddd;
+  }
+</style>
+
+<body>
+  <nav class="navbar navbar-expand-lg navbar-light bg-light">
+    <div class="container-fluid">
+      <a class="navbar-brand" href="">Нова пошта Api</a>
+      <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent"
+        aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+      </button>
+      <div class="collapse navbar-collapse" id="navbarSupportedContent">
+        <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+          <li class="nav-item">
+            <a class="nav-link active" href="" id="TTN-link">Ствоити ТТН</a>
+          </li>
+        </ul>
+        <span class="navbar-text m-2">
+          Відслідкування посилки
+        </span>
+        <form class="d-flex" id="TTN-number-form">
+          <input class="form-control me-2" type="search" placeholder="Номер накладної" id="tracking-numebr"
+            aria-label="Search">
+          <button class="btn btn-outline-success" type="submit" id="tracking-button">Пошук</button>
+        </form>
+      </div>
+    </div>
+  </nav>
+
+  <div class="container-fluid ">
+    <div class="row justify-content-center">
+      <div class="col-md-6" id="generator">
+        <div class="novaposhta-container">
+          <div class="accordion" id="accordion">
+            <form id="nova-poshta-form">
+              <div class="accordion-item">
+                <h2 class="accordion-header" id="headingOne">
+                  <button class="accordion-button collapsed " type="button" data-bs-toggle="collapse"
+                    data-bs-target="#recipient-form">
+                    Отримувач
+                  </button>
+                </h2>
+                <div id="recipient-form" class="accordion-collapse collapse show" aria-labelledby="headingOne"
+                  data-bs-parent="#accordion">
+                  <div class="p-1">
+                    <div class="p-1">
+                      <label for="recipient-first-name">Ім’я</label>
+                      <input class="form-control" id="recipient-first-name" placeholder="Введіть ім’я" value="Степап">
+                      <span for="recipient-first-name" class="text-danger"></span>
+                    </div>
+                    <div class="p-1">
+                      <label for="recipient-middle-name">Ім’я по батькові</label>
+                      <input class="form-control" id="recipient-middle-name" placeholder="Введіть ім’я по батькові"
+                        value="Радіславович">
+                      <span for="recipient-middle-name" class="text-danger"></span>
+                    </div>
+                    <div class="p-1">
+                      <label for="recipient-last-name">Прізвище</label>
+                      <input class="form-control" id="recipient-last-name" placeholder="Введіть прізвище"
+                        value="Стефанчик">
+                      <span for="recipient-last-name" class="text-danger"></span>
+                    </div>
+                    <div class="p-1">
+                      <label for="recipient-phone">Номер телефон</label>
+                      <input class="form-control" id="recipient-phone" placeholder="Введіть номер телефону"
+                        value="380956437622">
+                      <span for="recipient-phone" class="text-danger"></span>
+                    </div>
+                    <div class="p-1">
+                      <label for="recipient-city">Місто</label>
+                      <input class="form-control" id="recipient-city" placeholder="Введіть місто" value="Луцьк">
+                      <span for="recipient-city" class="text-danger"></span>
+                    </div>
+                    <div class="p-1">
+                      <label for="recipient-address">Адреса відділення</label>
+                      <select class="form-select" id="recipient-address"> </select>
+                      <span for="recipient-address" class="text-danger"></span>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <div class="accordion-item">
+                <h2 class="accordion-header" id="headingTwo">
+                  <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse"
+                    data-bs-target="#sender-form" aria-expanded="false" aria-controls="senderForm">
+                    Відправник
+                  </button>
+                </h2>
+                <div id="sender-form" class="accordion-collapse collapse" aria-labelledby="headingTwo"
+                  data-bs-parent="#accordion">
+                  <div class="p-1">
+                    <div class="p-1">
+                      <label for="sender-first-name">Ім’я</label>
+                      <input class="form-control" id="sender-first-name" disabled="true" placeholder="Введіть ім’я">
+                      <span for="sender-first-name" class="text-danger"></span>
+                    </div>
+                    <div class="p-1">
+                      <label for="sender-middle-name">Ім’я по батькові</label>
+                      <input class="form-control" id="sender-middle-name" disabled="true"
+                        placeholder="Введіть ім’я по батькові">
+                      <span for="sender-middle-name" class="text-danger"></span>
+                    </div>
+                    <div class="p-1">
+                      <label for="sender-last-name">Прізвище</label>
+                      <input class="form-control" id="sender-last-name" disabled="true" placeholder="Введіть прізвище">
+                      <span for="sender-last-name" class="text-danger"></span>
+                    </div>
+                    <div class="p-1">
+                      <label for="sender-phone">Номер телефон</label>
+                      <input class="form-control" id="sender-phone" placeholder="Введіть номер телефону">
+                      <span for="sender-phone" class="text-danger"></span>
+                    </div>
+                    <div class="p-1">
+                      <label for="sender-city">Місто</label>
+                      <input class="form-control" id="sender-city" placeholder="Введіть місто" value="Рівне">
+                      <span for="sender-city" class="text-danger"></span>
+                    </div>
+                    <div class="p-1">
+                      <label for="sender-address">Адреса відділення</label>
+                      <select class="form-select" id="sender-address"> </select>
+                      <span for="sender-address" class="text-danger"></span>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <div class="accordion-item">
+                <h2 class="accordion-header" id="headingThree">
+                  <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse"
+                    data-bs-target="#additional-information-form" aria-expanded="false" aria-controls="additionalForm">
+                    Інші послуги
+                  </button>
+                </h2>
+                <div id="additional-information-form" class="accordion-collapse collapse" aria-labelledby="headingThree"
+                  data-bs-parent="#accordion">
+                  <div class="p-1">
+                    <div class="p-1">
+                      <label for="description">Опис</label>
+                      <input class="form-control" name="description" id="description" placeholder="Введіть опис"
+                        value="Парка Yellow M1 XS">
+                      <span for="description" class="text-danger"></span>
+                    </div>
+                    <div class="row p-1">
+                      <div class="col-sm-6">
+                        <label for="payer-type">Платник</label>
+                        <select id="payer-type" class="form-select">
+                          <option value="Recipient">Отримувач</option>
+                          <option value="Sender">Відправник</option>
+                          <option value="ThirdPerson">Третя особа</option>
+                        </select>
+                      </div>
+                      <div class="col-sm-6">
+                        <label for="payment-method">Вид платежу</label>
+                        <select id="payment-method" class="form-select">
+                          <option value="Cash">Готівка</option>
+                          <option value="NonCash">Картка</option>
+                        </select>
+                      </div>
+                    </div>
+
+
+                    <div class="row p-1" id="warehouse-section">
+                      <div class="col-sm-6">
+                        <label for="weight">Вага вантажу(кг)</label>
+                        <input class="form-control" id="weight" placeholder="Введіть вагу" value="0.2">
+                        <span for="weight" class="text-danger"></span>
+                      </div>
+                      <div class="col-sm-6">
+                        <label for="seats-amount">Кількість місць</label>
+                        <input class="form-control" id="seats-amount" placeholder="Введіть кількість місць" value="1">
+                        <span for="seats-amount" class="text-danger"></span>
+                      </div>
+                    </div>
+
+                    <div id="doors-section" class="d-none">
+                      <div class="row p-1">
+                        <div class="col-sm-6">
+                          <label for="doors-weight">Вага вантажу(кг)</label>
+                          <input class="form-control" id="doors-weight" placeholder="Введіть вагу" value="2.5">
+                          <span for="doors-weight" class="text-danger"></span>
+                        </div>
+                        <div class="col-sm-6">
+                          <label for="volumetric-length">Довжина(см)</label>
+                          <input class="form-control" id="volumetric-length" placeholder="Введіть довжину" value="10">
+                          <span for="volumetric-length" class="text-danger"></span>
+                        </div>
+                      </div>
+                      <div class="row p-1">
+                        <div class="col-sm-6">
+                          <label for="volumetric-width">Ширина(см)</label>
+                          <input class="form-control" id="volumetric-width" placeholder="Введіть ширину" value="5">
+                          <span for="volumetric-width" class="text-danger"></span>
+                        </div>
+                        <div class="col -sm-6">
+                          <label for="volumetric-height">Висота(см)</label>
+                          <input class="form-control" id="volumetric-height" placeholder=" Введіть висоту" value="3">
+                          <span for="volumetric-height" class="text-danger"></span>
+                        </div>
+                      </div>
+                    </div>
+                    <div class="row p-1">
+                      <div class="col-sm-6">
+                        <label for="cost">Оцінювальна вартість</label>
+                        <input class="form-control" id="cost" placeholder="Введіть ціну товару" value="2200">
+                        <span for="cost" class="text-danger"></span>
+                      </div>
+                      <div class="col-sm-6">
+                        <label for="DateTime">Дата</label>
+                        <div class="input-group date" id="datepicker">
+                          <input type="text" class="form-control" id="DateTime" />
+                          <span class="input-group-append">
+                            <span class="input-group-text bg-light d-block">
+                              <i class="fa fa-calendar"></i>
+                            </span>
+                          </span>
+                        </div>
+                        <span for="DateTime" class="text-danger"></span>
+                      </div>
+                    </div>
+                    <div class="row p-2">
+                      <div class="col-sm-6">
+                        <input class="form-check-input custom-checkbox" type="checkbox" id="backward-delivery">
+                        <label class="form-check-label" for="backward-delivery">Зворотня доставка</label>
+                      </div>
+                    </div>
+                    <button class="btn btn-warning m-1">Створити
+                      накладну</button>
+                  </div>
+                </div>
+              </div>
+            </form>
+          </div>
+        </div>
+      </div>
+
+      <div class="card mt-5 col-md-6 d-none" style="padding-right: 0!important; padding-left: 0!important;"
+        id="tracking-info">
+        <div class="card-header">Інформація про посилку</div>
+        <div class="table-responsive">
+          <table class="table table-striped" style="margin-bottom: 0;">
+            <tbody>
+              <tr>
+                <th scope="row">Роздрукувати ттн:</th>
+                <td>
+                  <button class="btn btn-primary" onclick="PrintExpressPdf()">pdf</button>
+                  <button class="btn btn-primary" onclick="PrintExpressHtml()">html</button>
+                </td>
+              </tr>
+              <tr>
+                <th scope="row">Роздрукувати маркування:</th>
+                <td>
+                  <button class="btn btn-primary" onclick="PrintMarkingPdf()">pdf</button>
+                  <button class="btn btn-primary" onclick="PrintMarkingHtml()">html</button>
+                </td>
+              </tr>
+              <tr>
+                <th scope="row">Номер інтернет документа:</th>
+                <td id="package-number"></td>
+              </tr>
+              <tr>
+                <th scope="row">Ціна доставки:</th>
+                <td id="package-price"></td>
+              </tr>
+              <tr>
+                <th scope="row">Статус:</th>
+                <td id="package-status"></td>
+              </tr>
+              <tr>
+                <th scope="row">Дата створення:</th>
+                <td id="package-creation"></td>
+              </tr>
+              <tr>
+                <th scope="row">Дата доставки:</th>
+                <td id="package-receiving"></td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+
+      <div id="error-block" class="d-none mt-5">
+        <div class="col-md-6 mx-auto text-center">
+          <h2 id="error-text">Centered Text</h2>
+          <img id="error-img" src="ufo.jpg" alt="Image" class="img-fluid" style="height: 500px;"">
+        </div>
+      </div>
+
+
+      <script src=" script.js" charset="utf-8"></script>
+</body>
+
+</html>
