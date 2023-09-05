@@ -53,11 +53,14 @@ pipeline {
         stage('Install Docker on EC2 Instance') {
             steps {
                 script {
-                     withCredentials([file(credentialsId: 'aws-key', variable: 'privateKeyFile')]) {
+                    retry(2){
+                    sleep(time: 10, unit: 'SECONDS')
+                    sshagent(['ssh-agent']) {
                         sh """
-                            ssh -o StrictHostKeyChecking=no -i ${privateKeyFile} ${sshUser}@${publicIP} \
+                            ssh -o StrictHostKeyChecking=no ${sshUser}@${publicIP} \
                             "sudo yum update -y && sudo yum install docker -y && sudo service docker start && sudo usermod -aG docker ${sshUser} && sudo yum install git -y"
                         """
+                    }
                     }
                 }
             }
@@ -65,9 +68,9 @@ pipeline {
         stage('Clone git, built docker, push to Dockerhub'){
             steps{
                 script {
-                    withCredentials([file(credentialsId: 'aws-key', variable: 'privateKeyFile')]) {
+                    sshagent(['ssh-agent']) {
                         sh """
-                            ssh -o StrictHostKeyChecking=no -i ${privateKeyFile} ${sshUser}@${publicIP}  \
+                            ssh -o StrictHostKeyChecking=no ${sshUser}@${publicIP}  \
                             "git clone https://github.com/rewqla/demo_app_DevOps_1.git && cd demo_app_DevOps_1 && docker build -t rewqla/webapp:latest . && docker run -itd -p 80:80 --name webapp rewqla/webapp && docker login -u $DockerCred_USR -p $DockerCred_PSW && docker push rewqla/webapp:latest"
                         """
                     }
